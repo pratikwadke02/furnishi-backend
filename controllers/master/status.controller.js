@@ -3,8 +3,27 @@ const Status = db.status;
 
 exports.create = async (req, res) => {
     try{
-        await Status.create(req.body);
-        res.status(200).send({message: "Status created successfully"});
+        var statusCode;
+        const statuses = await Status.findAll();
+        if(statuses.length == 0){
+            statusCode = "S100500";
+        }else{
+            var lastStatus = statuses[statuses.length - 1];
+            var lastDigits = lastStatus.statusCode.substring(1, 7);
+            var incrementedDigits = parseInt(lastDigits, 10) + 1;
+            statusCode = "S" + incrementedDigits;
+        }
+        await Status.create({
+            statusCode: statusCode,
+            status: req.body.status,
+        }).then(data => {
+            res.status(200).send(data);
+        }
+        ).catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while creating the Status."
+            });
+        });
     }catch(err){
         res.status(500).send({message: err.message});
     }

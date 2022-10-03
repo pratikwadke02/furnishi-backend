@@ -40,11 +40,40 @@ module.exports = (app) => {
     router.post("/addCordinatorType", cordinatorType.create);
     router.get("/getCordinatorTypes", cordinatorType.findAll);
 
+    router.post("/addCordinator", cordinator.create);
+    router.get("/getCordinators", cordinator.findAll);
+
     router.post("/addFactoryInfo", factory.create);
     router.get("/getFactoryInfos", factory.findAll);
 
     router.post("/addProduct", product.create);
     router.get("/getProducts", product.findAll);
+
+    router.post("/addLocation", location.create);
+    router.get("/getLocations", location.findAll);
+
+    router.post("/addSnagAction", snagAction.create);
+    router.get("/getSnagActions", snagAction.findAll);
+
+    router.post("/addSnagCost", snagCost.create);
+    router.get("/getSnagCosts", snagCost.findAll);
+
+    router.post("/addSnagIssue", snagIssue.create);
+    router.get("/getSnagIssues", snagIssue.findAll);
+
+    router.post("/addSnagSolution", snagSolution.create);
+    router.get("/getSnagSolutions", snagSolution.findAll);
+
+    router.post("/addStatusAction", statusAction.create);
+    router.get("/getStatusActions", statusAction.findAll);
+
+    router.post("/addStatus", status.create);
+    router.get("/getStatuses", status.findAll);
+
+    router.post("/addWorkType", workType.create);
+    router.get("/getWorkTypes", workType.findAll);
+
+
 
     app.use("/api/furnishi", router);
 }

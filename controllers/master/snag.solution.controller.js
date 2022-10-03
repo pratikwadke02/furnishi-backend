@@ -3,8 +3,29 @@ const SnagSolution = db.snagSolution;
 
 exports.create = async (req, res) => {
     try{
-        await SnagSolution.create(req.body);
-        res.status(200).send({message: "Snag Solution created successfully"});
+        var solutionCode;
+        const snagSolutions = await SnagSolution.findAll();
+        if(snagSolutions.length == 0){
+            solutionCode = "SS100500";
+        }
+        else{
+            var lastSnagSolution = snagSolutions[snagSolutions.length - 1];
+            var lastDigits = lastSnagSolution.solutionCode.substring(2, 8);
+            var incrementedDigits = parseInt(lastDigits, 10) + 1;
+            solutionCode = "SS" + incrementedDigits;
+        }
+        await SnagSolution.create({
+            solutionCode: solutionCode,
+            solution: req.body.solution,
+        }).then(data => {
+            res.status(200).send(data);
+        }
+        ).catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while creating the Snag Solution."
+            });
+        }
+        );
     }catch(err){
         res.status(500).send({message: err.message});
     }
