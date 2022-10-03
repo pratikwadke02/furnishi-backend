@@ -34,7 +34,17 @@ module.exports = (app) => {
 
     // router.post("/createSnagList", snagList.create);
     
-    
+    router.post("/addSource", source.create);
+    router.get("/getSources", source.findAll);
+
+    router.post("/addCordinatorType", cordinatorType.create);
+    router.get("/getCordinatorTypes", cordinatorType.findAll);
+
+    router.post("/addFactoryInfo", factory.create);
+    router.get("/getFactoryInfos", factory.findAll);
+
+    router.post("/addProduct", product.create);
+    router.get("/getProducts", product.findAll);
 
     app.use("/api/furnishi", router);
 }

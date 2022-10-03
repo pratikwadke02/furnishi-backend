@@ -3,8 +3,29 @@ const Product = db.product;
 
 exports.create = async(req, res) => {
     try {
-        const product = await Product.create(req.body);
-        res.status(201).send(product);
+        var productCode;
+        const products = await Product.findAll();
+        if (products.length == 0) {
+            productCode = "P100500";
+        }
+        else {
+            var lastProduct = products[products.length - 1];
+            var lastDigits = lastProduct.productCode.substring(1, 7);
+            var incrementedDigits = parseInt(lastDigits, 10) + 1;
+            productCode = "P" + incrementedDigits;
+        }
+        await Product.create({
+            productCode: productCode,
+            factoryProductCode: req.body.factoryProductCode,
+            name: req.body.name,
+        }).then(data => {
+            res.status(200).send(data);
+        }
+        ).catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while creating the Product."
+            });
+        });
     } catch (error) {
         res.status(500).send(error);
     }
