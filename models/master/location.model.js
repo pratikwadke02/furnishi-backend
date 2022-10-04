@@ -5,12 +5,12 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        locationPincode: {
-            type: Sequelize.STRING,
+        pincode: {
+            type: Sequelize.STRING
         },
-        locationName: {
-            type: Sequelize.STRING,
+        name: {
+            type: Sequelize.STRING
         },
     })
     return Location;
-}
+};

@@ -3,15 +3,9 @@ const Location = db.location;
 
 exports.create = async (req, res) => {
     try{
-        await Location.create().then(data => {
-            res.status(200).send(data);
-        }
-        ).catch(err => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while creating the Location."
-            });
-        }
-        );
+        console.log(req.body);
+        const location = await Location.create(req.body);
+        res.status(200).send(location);
     }catch(err){
         res.status(500).send({message: err.message});
     }
