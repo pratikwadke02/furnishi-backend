@@ -73,7 +73,14 @@ module.exports = (app) => {
     router.post("/addWorkType", workType.create);
     router.get("/getWorkTypes", workType.findAll);
 
+    router.post("/addEnquiry", enquiry.create);
+    router.get("/getEnquiries", enquiry.fmEnquiry);
 
+    router.post("/addOrder", order.create);
+    router.get("/getOrders", order.fmOrder);
+
+    router.post("/addSnaglist", snagList.createSnagList);
+    router.get("/getSnaglists", snagList.fmSnaglist);
 
     app.use("/api/furnishi", router);
 }

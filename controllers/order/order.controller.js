@@ -4,11 +4,13 @@ const Order = db.order;
 exports.create = async (req, res) => {
   try {
     var orderId;
+    var customerId;
     // check if first order
     await Order.findAll().then((data) => {
       if (data.length == 0) {
         // first enquiry
         orderId = "O100500";
+        customerId = 'C100500';
       } else {
         // not first enquiry
         // get last enquiry code
@@ -19,13 +21,20 @@ exports.create = async (req, res) => {
         var incrementedDigits = parseInt(lastDigits, 10) + 1;
         // generate code as E100500
         orderId = "O" + incrementedDigits;
+        var lastCustomerId = data[data.length - 1].customerId;
+        // get last 3 digits
+        var lastDigitsCust = lastCustomerId.substring(1, 7);
+        // increment by 1
+        var incrementedDigitsCust = parseInt(lastDigitsCust, 10) + 1;
+        // generate code as E100500
+        customerId = "C" + incrementedDigitsCust;
       }
     });
     // order code does not exist
     // create order
     await Order.create({
       orderId: orderId,
-      customerId: req.body.customerId,
+      customerId: customerId,
       name: req.body.name,
       number: req.body.number,
       address: req.body.address,
