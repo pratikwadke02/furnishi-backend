@@ -34,8 +34,15 @@ db.source = require('./master/source.model.js')(sequelize, Sequelize);
 db.statusAction = require('./master/status.action.model.js')(sequelize, Sequelize);
 db.status = require('./master/status.model.js')(sequelize, Sequelize);
 db.workType = require('./master/work.type.model.js')(sequelize, Sequelize);
+db.carcass = require('./master/carcass.model.js')(sequelize, Sequelize);
+db.shutter = require('./master/shutter.model.js')(sequelize, Sequelize);
+db.designer = require('./master/designer.model.js')(sequelize, Sequelize);
+db.planner = require('./master/planner.model.js')(sequelize, Sequelize);
+db.salesPerson = require('./master/sales.person.model.js')(sequelize, Sequelize);
+db.finalSiteSurveyor = require('./master/final.site.surveyor.model.js')(sequelize, Sequelize);
 
 db.order = require('./order/order.model.js')(sequelize, Sequelize);
+db.orderList = require('./orderList/orderList.model.js')(sequelize, Sequelize);
 
 db.surveyPartner = require('./registration/survey.partner.model.js')(sequelize, Sequelize);
 db.workPartner = require('./registration/work.partner.model.js')(sequelize, Sequelize);

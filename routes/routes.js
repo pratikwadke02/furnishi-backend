@@ -7,6 +7,7 @@ module.exports = (app) => {
     const workPartner = require('../controllers/registration/work.controller.js');
 
     const order = require('../controllers/order/order.controller.js');
+    const orderList = require('../controllers/orderList/orderList.controller.js');
 
     const enquiry = require('../controllers/enquiry/enquiry.controller.js');
 
@@ -23,6 +24,12 @@ module.exports = (app) => {
     const statusAction = require('../controllers/master/status.action.controller.js');
     const status = require('../controllers/master/status.controller.js');
     const workType = require('../controllers/master/work.type.controller.js');
+    const carcass = require('../controllers/master/carcass.controller.js');
+    const shutter = require('../controllers/master/shutter.controller.js');
+    const designer = require('../controllers/master/designer.controller.js');
+    const planner = require('../controllers/master/planner.controller.js');
+    const salesPerson = require('../controllers/master/sales.person.controller.js');
+    const finalSiteSurveyor = require('../controllers/master/final.site.surveyor.controller.js');
 
 
     const router = require('express').Router();
@@ -81,6 +88,20 @@ module.exports = (app) => {
 
     router.post("/addSnaglist", snagList.createSnagList);
     router.get("/getSnaglists", snagList.fmSnaglist);
+
+    router.post("/addOrderList", orderList.create);
+
+    router.post("/addCarcass", carcass.create);
+
+    router.post("/addShutter", shutter.create);
+
+    router.post("/addDesigner", designer.create);
+
+    router.post("/addPlanner", planner.create);
+
+    router.post("/addSalesPerson", salesPerson.create);
+
+    router.post("/addFinalSiteSurveyor", finalSiteSurveyor.create);
 
     app.use("/api/furnishi", router);
 }
