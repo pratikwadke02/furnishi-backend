@@ -30,3 +30,15 @@ exports.create = async(req, res) => {
         });
     }
 };
+
+exports.findAll = async(req, res) => {
+    try{
+        await FinalSiteSurveyor.findAll().then(data => {
+            res.send(data);
+        });
+    }catch(err){
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving Final Site Surveyor."
+        });
+    }
+}

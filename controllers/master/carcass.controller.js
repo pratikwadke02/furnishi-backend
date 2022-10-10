@@ -6,15 +6,15 @@ exports.create = async(req, res) => {
         var carcassCode;
         await Carcass.findAll().then(data => {
             if(data.length === 0){
-                carcassCode = 'C100500';
+                carcassCode = 'CR100500';
             }else{
                 var lastCarcassCode = data[data.length - 1].carcassCode;
-                var lastCarcassCodeNumber = parseInt(lastCarcassCode.substring(1));
-                carcassCode = 'C' + (lastCarcassCodeNumber + 1);
+                var lastCarcassCodeNumber = parseInt(lastCarcassCode.substring(2));
+                carcassCode = 'CR' + (lastCarcassCodeNumber + 1);
             }
         });
         await Carcass.create({
-            carcassCode: req.body.carcassCode,
+            carcassCode: carcassCode,
             carcass: req.body.carcass,
         }).then(data => {
             res.send(data);
@@ -30,3 +30,15 @@ exports.create = async(req, res) => {
         });
     }
 };
+
+exports.findAll = async(req, res) => {
+    try{
+        await Carcass.findAll().then(data => {
+            res.send(data);
+        });
+    }catch(err){
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving Carcass."
+        });
+    }
+}

@@ -32,6 +32,7 @@ module.exports = (app) => {
     const finalSiteSurveyor = require('../controllers/master/final.site.surveyor.controller.js');
 
 
+
     const router = require('express').Router();
 
 
@@ -90,18 +91,25 @@ module.exports = (app) => {
     router.get("/getSnaglists", snagList.fmSnaglist);
 
     router.post("/addOrderList", orderList.create);
+    router.get("/getOrderLists", orderList.findAll);
 
     router.post("/addCarcass", carcass.create);
+    router.get("/getCarcasses", carcass.findAll);
 
     router.post("/addShutter", shutter.create);
+    router.get("/getShutters", shutter.findAll);
 
     router.post("/addDesigner", designer.create);
+    router.get("/getDesigners", designer.findAll);
 
     router.post("/addPlanner", planner.create);
+    router.get("/getPlanners", planner.findAll);
 
     router.post("/addSalesPerson", salesPerson.create);
+    router.get("/getSalesPersons", salesPerson.findAll);
 
     router.post("/addFinalSiteSurveyor", finalSiteSurveyor.create);
+    router.get("/getFinalSiteSurveyors", finalSiteSurveyor.findAll);
 
     app.use("/api/furnishi", router);
 }
