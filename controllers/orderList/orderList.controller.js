@@ -44,7 +44,7 @@ exports.create = async(req, res) => {
             rawMaterialPurchase: req.body.rawMaterialPurchase,
             accHardwareGlassPurchase: req.body.accHardwareGlassPurchase,
             jobWork: req.body.jobWork,
-            finalSiteSurveyor: req.body.finalSiteSurveyor,
+            finalSiteSurvey: req.body.finalSiteSurvey,
             panelProduction: req.body.panelProduction,
             jobWorkMaterial: req.body.jobWorkMaterial,
             metalWork: req.body.metalWork,
@@ -80,4 +80,4 @@ exports.findAll = async(req, res) => {
             message: err.message || "Some error occurred while retrieving OrderList."
         });
     }
-}
+};
