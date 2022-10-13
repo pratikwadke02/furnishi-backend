@@ -14,28 +14,67 @@ module.exports = (sequelize, Sequelize) => {
     orderNumber: {
         type: Sequelize.STRING,
     },
+    customerName: {
+        type: Sequelize.STRING,
+    },
+    customerNumber: {
+        type: Sequelize.STRING,
+    },
+    siteAddress: {
+        type: Sequelize.STRING,
+    },
+    sitePincode: {
+        type: Sequelize.STRING,
+    },
+    siteGoogleLocation: {
+        type: Sequelize.STRING,
+    },
     source: {
         type: Sequelize.STRING,
     },
-    client: {
+    sourceCordinator: {
         type: Sequelize.STRING,
     },
-    address: {
+    sourceCordinatorNumber: {
+        type: Sequelize.STRING,
+    },
+    customerCordinator: {
+        type: Sequelize.STRING,
+    },
+    customerCordinatorNumber: {
+        type: Sequelize.STRING,
+    },
+    factoryCordinator: {
+        type: Sequelize.STRING,
+    },
+    factoryCordinatorNumber: {
         type: Sequelize.STRING,
     },
     product: {
         type: Sequelize.STRING,
     },
+    designDocument: {
+        type: Sequelize.STRING,
+    },
     location: {
         type: Sequelize.STRING,
     },
-    value: {
+    noOfServices: {
         type: Sequelize.STRING,
     },
-    received: {
+    area: {
         type: Sequelize.STRING,
     },
-    status: {
+    validatedArea: {
+        type: Sequelize.STRING,
+    },
+    orderValue: {
+        type: Sequelize.STRING,
+    },
+    paymentReceived: {
+        type: Sequelize.STRING,
+    },
+    currentStatus: {
         type: Sequelize.STRING,
     },
     carcass: {
@@ -50,16 +89,22 @@ module.exports = (sequelize, Sequelize) => {
     designer: {
         type: Sequelize.STRING,
     },
-    planner: {
-        type: Sequelize.STRING,
-    },
+    // planner: {
+    //     type: Sequelize.STRING,
+    // },
     indentNumber: {
         type: Sequelize.STRING,
     },
     finalSiteSurveyor: {
         type: Sequelize.STRING,
     },
-    workingTime: {
+    workStartTime: {
+        type: Sequelize.STRING,
+    },
+    workEndTime: {
+        type: Sequelize.STRING,
+    },
+    factoryEngineer: {
         type: Sequelize.STRING,
     },
     accountClearance: {
@@ -68,13 +113,19 @@ module.exports = (sequelize, Sequelize) => {
     designClearance: {
         type: Sequelize.STRING,
     },
-    mrpRelease: {
+    indentRelease: {
         type: Sequelize.STRING,
     },
+    // mrpRelease: {
+    //     type: Sequelize.STRING,
+    // },
     shopDocuments: {
         type: Sequelize.STRING,
     },
     stockCheck: {
+        type: Sequelize.STRING,
+    },
+    poPrepare: {
         type: Sequelize.STRING,
     },
     poApproval: {
@@ -83,31 +134,32 @@ module.exports = (sequelize, Sequelize) => {
     poRelease: {
         type: Sequelize.STRING,
     },
-    rawMaterialPurchase: {
+    rawMaterialAvailable: {
         type: Sequelize.STRING,
     },
-    accHardwareGlassPurchase: {
+    otherMaterialAvailable: {
         type: Sequelize.STRING,
     },
-    jobWork: {
+    jobWorkDone: {
         type: Sequelize.STRING,
     },
-    finalSiteSurvey: {
-        type: Sequelize.STRING,
-    },
+
+    // finalSiteSurvey: {
+    //     type: Sequelize.STRING,
+    // },
     panelProduction: {
         type: Sequelize.STRING,
     },
-    jobWorkMaterial: {
+    paintMaterialProduction: {
         type: Sequelize.STRING,
     },
-    metalWork: {
-        type: Sequelize.STRING,
-    },
-    paintWork: {
+    otherMaterialProduction: {
         type: Sequelize.STRING,
     },
     assembly: {
+        type: Sequelize.STRING,
+    },
+    cleaning: {
         type: Sequelize.STRING,
     },
     packing: {
@@ -116,7 +168,16 @@ module.exports = (sequelize, Sequelize) => {
     dispatch: {
         type: Sequelize.STRING,
     },
-    installation: {
+    installationAssigned: {
+        type: Sequelize.STRING,
+    },
+    installationStart: {
+        type: Sequelize.STRING,
+    },
+    installationStatus: {
+        type: Sequelize.STRING,
+    },
+    installationEnd: {
         type: Sequelize.STRING,
     },
     handover: {
