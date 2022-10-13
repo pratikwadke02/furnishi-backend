@@ -37,7 +37,7 @@ exports.create = async(req, res) => {
             area: req.body.area,
             validatedArea : req.body.validatedArea,
             orderValue: req.body.orderValue,
-            receivedValue: req.body.receivedValue,
+            paymentReceived: req.body.paymentReceived,
             currentStatus: req.body.currentStatus,
             carcass: req.body.carcass,
             shutter: req.body.shutter,
