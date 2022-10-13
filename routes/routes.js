@@ -30,6 +30,7 @@ module.exports = (app) => {
     const planner = require('../controllers/master/planner.controller.js');
     const salesPerson = require('../controllers/master/sales.person.controller.js');
     const finalSiteSurveyor = require('../controllers/master/final.site.surveyor.controller.js');
+    const factoryEngineer = require('../controllers/master/factory.engineer.controller.js');
 
 
 
@@ -110,6 +111,9 @@ module.exports = (app) => {
 
     router.post("/addFinalSiteSurveyor", finalSiteSurveyor.create);
     router.get("/getFinalSiteSurveyors", finalSiteSurveyor.findAll);
+
+    router.post("/addFactoryEngineer", factoryEngineer.create);
+    router.get("/getFactoryEngineers", factoryEngineer.findAll);
 
     app.use("/api/furnishi", router);
 }

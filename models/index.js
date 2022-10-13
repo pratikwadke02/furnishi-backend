@@ -40,6 +40,7 @@ db.designer = require('./master/designer.model.js')(sequelize, Sequelize);
 db.planner = require('./master/planner.model.js')(sequelize, Sequelize);
 db.salesPerson = require('./master/sales.person.model.js')(sequelize, Sequelize);
 db.finalSiteSurveyor = require('./master/final.site.surveyor.model.js')(sequelize, Sequelize);
+db.factoryEngineer = require('./master/factory.engineer.model.js')(sequelize, Sequelize);
 
 db.order = require('./order/order.model.js')(sequelize, Sequelize);
 db.orderList = require('./orderList/orderList.model.js')(sequelize, Sequelize);
