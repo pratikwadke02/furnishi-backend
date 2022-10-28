@@ -1,116 +1,49 @@
 module.exports = (sequelize, Sequelize) => {
-    const Enquiry = sequelize.define("enquiry", {
-      id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      orderId: {
+  const Enquiry = sequelize.define("enquiry", {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    targetDate: {
         type: Sequelize.STRING,
-      },
-      name: {
+    },
+    orderNumber: {
         type: Sequelize.STRING,
-      },
-      number: {
+    },
+    sitePincode: {
         type: Sequelize.STRING,
-      },
-      address: {
+    },
+    product: {
         type: Sequelize.STRING,
-      },
-      pincode: {
+    },
+    area: {
         type: Sequelize.STRING,
-      },
-      locationCode: {
+    },
+    currentStatus: {
         type: Sequelize.STRING,
-      },
-      customerCordinator: {
+    },
+    carcass: {
         type: Sequelize.STRING,
-      },
-      customerCordinatorNumber: {
+    },
+    shutter: {
         type: Sequelize.STRING,
-      },
-      sourceCordinator: {
+    },
+    workStartTime: {
         type: Sequelize.STRING,
-      },
-      sourceCordinatorNumber: {
+    },
+    workEndTime: {
         type: Sequelize.STRING,
-      },
-      factoryCordinator: {
+    },
+    dispatch: {
         type: Sequelize.STRING,
-      },
-      factoryCordinatorNumber: {
+    },
+    estimate: {
         type: Sequelize.STRING,
-      },
-      productId: {
-        type: Sequelize.INTEGER,
-      },
-      product: {
-        type: Sequelize.STRING,
-      },
-      productCode: {
-        type: Sequelize.STRING,
-      },
-      saleValue: {
-        type: Sequelize.STRING,
-      },
-      materialValue: {
-        type: Sequelize.STRING,
-      },
-      faceArea: {
-        type: Sequelize.STRING,
-      },
-      targetStartDate: {
-        type: Sequelize.STRING,
-      },
-      targetEndDate: {
-        type: Sequelize.STRING,
-      },
-      startDate: {
-        type: Sequelize.STRING,
-      },
-      endDate: {
-        type: Sequelize.STRING,
-      },
-      totalService: {
-        type: Sequelize.STRING,
-      },
-      serviceDone: {
-        type: Sequelize.STRING,
-      },
-      servicePending: {
-        type: Sequelize.STRING,
-      },
-      serviceCalendar: {
-        type: Sequelize.STRING,
-      },
-      estimatedCost: {
-        type: Sequelize.STRING,
-      },
-      actualCost: {
-        type: Sequelize.STRING,
-      },
-      attachment: {
-        type: Sequelize.STRING,
-      },
-      totalHistory: {
-        type: Sequelize.STRING,
-      },
-      totalExpenseTillDate: {
-        type: Sequelize.STRING,
-      },
-      statusAction: {
-        type: Sequelize.STRING,
-      },
-      estimatedQuote: {
-        type: Sequelize.STRING,
-      },
-      discount: {
-        type: Sequelize.STRING,
-      },
-      estimatedQuoteAfterDiscount: {
-        type: Sequelize.STRING,
-      },
-    });
-    return Enquiry;
-  };
-  
+    },
+    action: {
+      type: Sequelize.STRING,
+    }
+  });
+  return Enquiry;
+};

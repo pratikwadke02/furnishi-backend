@@ -44,6 +44,7 @@ db.factoryEngineer = require('./master/factory.engineer.model.js')(sequelize, Se
 
 db.order = require('./order/order.model.js')(sequelize, Sequelize);
 db.orderList = require('./orderList/orderList.model.js')(sequelize, Sequelize);
+db.furnishiOrder = require('./furnishiOrder/furnishiOrder.model.js')(sequelize, Sequelize);
 
 db.surveyPartner = require('./registration/survey.partner.model.js')(sequelize, Sequelize);
 db.workPartner = require('./registration/work.partner.model.js')(sequelize, Sequelize);

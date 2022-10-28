@@ -8,6 +8,7 @@ module.exports = (app) => {
 
     const order = require('../controllers/order/order.controller.js');
     const orderList = require('../controllers/orderList/orderList.controller.js');
+    const furnishiOrder = require('../controllers/furnishiOrder/furnishi.order.controller.js');
 
     const enquiry = require('../controllers/enquiry/enquiry.controller.js');
 
@@ -83,10 +84,13 @@ module.exports = (app) => {
     router.get("/getWorkTypes", workType.findAll);
 
     router.post("/addEnquiry", enquiry.create);
-    router.get("/getEnquiries", enquiry.fmEnquiry);
+    router.get("/getEnquiries", enquiry.findAll);
 
     router.post("/addOrder", order.create);
     router.get("/getOrders", order.fmOrder);
+
+    router.post("/addFurnishiOrder", furnishiOrder.create );
+    router.get("/getFurnishiOrders", furnishiOrder.findAll);
 
     router.post("/addSnaglist", snagList.createSnagList);
     router.get("/getSnaglists", snagList.fmSnaglist);
