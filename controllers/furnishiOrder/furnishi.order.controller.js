@@ -1,10 +1,10 @@
 const db = require("../../models");
-const Order = db.order;
+const FurnishiOrder = db.furnishiOrder;
 
 exports.create = async(req, res) => {
   try{
       var orderNumber;
-      await Order.findAll().then(data => {
+      await FurnishiOrder.findAll().then(data => {
           if(data.length === 0){
               orderNumber = 'ON100500';
           }
@@ -14,7 +14,7 @@ exports.create = async(req, res) => {
               orderNumber = 'ON' + (lastOrderNumberNumber + 1);
           }
       });
-      await Order.create({
+      await FurnishiOrder.create({
           orderNumber: orderNumber,
           targetDate: req.body.targetDate,
           customerName: req.body.customerName,
@@ -72,7 +72,7 @@ exports.create = async(req, res) => {
 
 exports.findAll = async (req, res) => {
   try {
-    await Order.findAll()
+    await FurnishiOrder.findAll()
       .then((data) => {
         res.send(data);
       })
