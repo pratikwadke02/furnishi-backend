@@ -1,11 +1,12 @@
 const db = require('../../models');
-const User = db.user;
+const FurnishiUser = db.furnishiUser;
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 const register = require('../../middleware/register.js');
 const login = require('../../middleware/login.js');
+
 
 const SALT = 10;
 
@@ -17,7 +18,7 @@ exports.register = async (req, res) => {
         console.log(error);
         return res.status(400).send(error.details[0].message);
     }
-    const user = await User.findOne({
+    const user = await FurnishiUser.findOne({
         where: {
             email: req.body.email,
         }
@@ -27,13 +28,11 @@ exports.register = async (req, res) => {
     }
     const salt = await bcrypt.genSalt(SALT);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    await User.create({
+    await FurnishiUser.create({
         ...req.body,
         password: hashedPassword,
     });
-    res.send(
-        {data: req.body}
-        );
+    res.send({data: req.body});
 }catch(err){
     console.log(err);
     res.status(500).send(err);
@@ -48,7 +47,7 @@ exports.login = async (req, res) => {
             console.log(error);
             return res.status(400).send(error.details[0].message);
         }
-        const user = await User.findOne({
+        const user = await FurnishiUser.findOne({
             where: {
                 email: req.body.email,
             }
@@ -71,7 +70,7 @@ exports.login = async (req, res) => {
 
 exports.findAll = async (req, res) => {
     try{
-        const users = await User.findAll();
+        const users = await FurnishiUser.findAll();
         res.send(users);
     }catch(error){
         console.log(error);

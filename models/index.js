@@ -19,6 +19,7 @@ db.sequelize = sequelize;
 
 db.user = require('./user/user.model.js')(sequelize, Sequelize);
 db.furnishiUser = require('./furnishiUser/furnishiUser.model.js')(sequelize, Sequelize);
+db.assistantUser = require('./assistantUser/assistant.user.model.js')(sequelize, Sequelize);
 
 db.enquiry = require('./enquiry/enquiry.model.js')(sequelize, Sequelize);
 
@@ -42,6 +43,7 @@ db.planner = require('./master/planner.model.js')(sequelize, Sequelize);
 db.salesPerson = require('./master/sales.person.model.js')(sequelize, Sequelize);
 db.finalSiteSurveyor = require('./master/final.site.surveyor.model.js')(sequelize, Sequelize);
 db.factoryEngineer = require('./master/factory.engineer.model.js')(sequelize, Sequelize);
+db.panel = require('./master/panel.model.js')(sequelize, Sequelize);
 
 db.order = require('./order/order.model.js')(sequelize, Sequelize);
 db.orderList = require('./orderList/orderList.model.js')(sequelize, Sequelize);
@@ -51,5 +53,6 @@ db.surveyPartner = require('./registration/survey.partner.model.js')(sequelize, 
 db.workPartner = require('./registration/work.partner.model.js')(sequelize, Sequelize);
 
 db.snagList = require('./snaglist/snag.list.model.js')(sequelize, Sequelize);
+
 
 module.exports = db;

@@ -33,6 +33,8 @@ module.exports = (app) => {
     const salesPerson = require('../controllers/master/sales.person.controller.js');
     const finalSiteSurveyor = require('../controllers/master/final.site.surveyor.controller.js');
     const factoryEngineer = require('../controllers/master/factory.engineer.controller.js');
+    const panel = require('../controllers/master/panel.controller.js');
+
 
 
 
@@ -123,6 +125,11 @@ module.exports = (app) => {
 
     router.post("/addFactoryEngineer", factoryEngineer.create);
     router.get("/getFactoryEngineers", factoryEngineer.findAll);
+
+    router.post("/addPanel", panel.create);
+    router.get("/getPanels", panel.findAll);
+    
+
 
     app.use("/api/furnishi", router);
 }
