@@ -1,6 +1,7 @@
 module.exports = (app) => {
     const user = require('../controllers/user/user.controller.js');
     const furnishiUser = require('../controllers/furnishiUser/furnishi.user.controller.js');
+    const assistantUser = require('../controllers/assistantUser/assistant.user.controller.js');
 
     const snagList = require('../controllers/snaglist/snaglist.controller.js');
 
@@ -48,6 +49,10 @@ module.exports = (app) => {
     router.post("/registerFurnishi", furnishiUser.register );
     router.post("/loginFurnishi", furnishiUser.login );
     router.get("/getAllFurnishiUsers", furnishiUser.findAll );
+
+    router.post("/registerAssistant", assistantUser.register );
+    router.post("/loginAssistant", assistantUser.login );
+    router.get("/getAllAssistantUsers", assistantUser.findAll );
 
     // router.post("/createSnagList", snagList.create);
     

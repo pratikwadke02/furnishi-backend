@@ -14,7 +14,7 @@ module.exports = (sequelize, Sequelize) => {
       email: {
         type: Sequelize.STRING,
       },
-      phone: {
+      mobileNumber: {
         type: Sequelize.STRING,
       },
       password: {
@@ -71,9 +71,6 @@ module.exports = (sequelize, Sequelize) => {
       product: {
           type: Sequelize.STRING,
       },
-      designDocument: {
-          type: Sequelize.STRING,
-      },
       location: {
           type: Sequelize.STRING,
       },
@@ -81,9 +78,6 @@ module.exports = (sequelize, Sequelize) => {
           type: Sequelize.STRING,
       },
       area: {
-          type: Sequelize.STRING,
-      },
-      validatedArea: {
           type: Sequelize.STRING,
       },
       orderValue: {
@@ -176,22 +170,6 @@ module.exports = (sequelize, Sequelize) => {
       dispatch: {
           type: Sequelize.STRING,
       },
-      installationAssigned: {
-          type: Sequelize.STRING,
-      },
-      installationStart: {
-          type: Sequelize.STRING,
-      },
-      installationStatus: {
-          type: Sequelize.STRING,
-      },
-      installationEnd: {
-          type: Sequelize.STRING,
-      },
-      handover: {
-          type: Sequelize.STRING,
-      },
     });
     return AssistantUser;
   };
-  
