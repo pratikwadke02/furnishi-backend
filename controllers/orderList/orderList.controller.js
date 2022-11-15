@@ -1,5 +1,7 @@
 const db = require('../../models');
 const OrderList = db.orderList;
+const AssistantUser = db.assistantUser;
+const parser = require('../../utils/parser');
 
 exports.create = async(req, res) => {
     try{
@@ -98,3 +100,78 @@ exports.findAll = async(req, res) => {
         });
     }
 };
+
+exports.findOrderListByAssistantUser = async(req, res) => {
+    try{
+        const assistantUser = await AssistantUser.findOne({
+            where: {
+                id: req.params.id
+            },
+        });
+        const orderList = await OrderList.findOne({
+            where: {
+                orderNumber: assistantUser.orderNumber
+            }
+        });
+        const parseData = parser.parseData(assistantUser, orderList);
+        res.send(parseData);   
+    }catch(err){
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving OrderList."
+        });
+    }
+};
+
+
+
+        // const orderListData = {
+        //     orderNumber: orderList.orderNumber,
+        //     receivedDate: parseInt(assistantUser.receivedDate, 10) === 1 ? orderList.receivedDate : null,
+        //     targetDate: parseInt(assistantUser.targetDate, 10) === 1 ? orderList.targetDate : null,
+        //     customerName: parseInt(assistantUser.customerName, 10) === 1 ? orderList.customerName : null,
+        //     customerNumber: assistantUser.customerNumber === 1 ? orderList.customerNumber : null,
+        //     siteAddress: assistantUser.siteAddress === 1 ? orderList.siteAddress : null,
+        //     sitePincode: assistantUser.sitePincode === 1 ? orderList.sitePincode : null,
+        //     siteGoogleLocation: assistantUser.siteGoogleLocation === 1 ? orderList.siteGoogleLocation : null,
+        //     source: assistantUser.source === 1 ? orderList.source : null,
+        //     sourceCordinator: assistantUser.sourceCordinator === 1 ? orderList.sourceCordinator : null,
+        //     sourceCordinatorNumber: assistantUser.sourceCordinatorNumber === 1 ? orderList.sourceCordinatorNumber : null,
+        //     customerCordinator: assistantUser.customerCordinator === 1 ? orderList.customerCordinator : null,
+        //     customerCordinatorNumber: assistantUser.customerCordinatorNumber === 1 ? orderList.customerCordinatorNumber : null,
+        //     factoryCordinator: assistantUser.factoryCordinator === 1 ? orderList.factoryCordinator : null,
+        //     factoryCordinatorNumber: assistantUser.factoryCordinatorNumber === 1 ? orderList.factoryCordinatorNumber : null,
+        //     product: assistantUser.product === 1 ? orderList.product : null,
+        //     location: assistantUser.location === 1 ? orderList.location : null,
+        //     noOfServices: assistantUser.noOfServices === 1 ? orderList.noOfServices : null,
+        //     area: assistantUser.area === 1 ? orderList.area : null,
+        //     orderValue: assistantUser.orderValue === 1 ? orderList.orderValue : null,
+        //     paymentReceived: assistantUser.paymentReceived === 1 ? orderList.paymentReceived : null,
+        //     currentStatus: assistantUser.currentStatus === 1 ? orderList.currentStatus : null,
+        //     carcass: assistantUser.carcass === 1 ? orderList.carcass : null,
+        //     shutter: assistantUser.shutter === 1 ? orderList.shutter : null,
+        //     salesPerson: assistantUser.salesPerson === 1 ? orderList.salesPerson : null,
+        //     designer: assistantUser.designer === 1 ? orderList.designer : null,
+        //     indentNumber: assistantUser.indentNumber === 1 ? orderList.indentNumber : null,
+        //     finalSiteSurveyor: assistantUser.finalSiteSurveyor === 1 ? orderList.finalSiteSurveyor : null,
+        //     workStartTime: assistantUser.workStartTime === 1 ? orderList.workStartTime : null,
+        //     workEndTime: assistantUser.workEndTime === 1 ? orderList.workEndTime : null,
+        //     factoryEngineer: assistantUser.factoryEngineer === 1 ? orderList.factoryEngineer : null,
+        //     accountClearance: assistantUser.accountClearance === 1 ? orderList.accountClearance : null,
+        //     designClearance: assistantUser.designClearance === 1 ? orderList.designClearance : null,
+        //     indentRelease: assistantUser.indentRelease === 1 ? orderList.indentRelease : null,
+        //     shopDocuments: assistantUser.shopDocuments === 1 ? orderList.shopDocuments : null,
+        //     stockCheck: assistantUser.stockCheck === 1 ? orderList.stockCheck : null,
+        //     poPrepare: assistantUser.poPrepare === 1 ? orderList.poPrepare : null,
+        //     poApproval: assistantUser.poApproval === 1 ? orderList.poApproval : null,
+        //     poRelease: assistantUser.poRelease === 1 ? orderList.poRelease : null,
+        //     rawMaterialAvailable: assistantUser.rawMaterialAvailable === 1 ? orderList.rawMaterialAvailable : null,
+        //     otherMaterialAvailable: assistantUser.otherMaterialAvailable === 1 ? orderList.otherMaterialAvailable : null,
+        //     jobWorkDone: assistantUser.jobWorkDone === 1 ? orderList.jobWorkDone : null,
+        //     paintMaterialProduction: assistantUser.paintMaterialProduction === 1 ? orderList.paintMaterialProduction : null,
+        //     otherMaterialProduction: assistantUser.otherMaterialProduction === 1 ? orderList.otherMaterialProduction : null,
+        //     panelProduction: assistantUser.panelProduction === 1 ? orderList.panelProduction : null,
+        //     assembly: assistantUser.assembly === 1 ? orderList.assembly : null,
+        //     cleaning: assistantUser.cleaning === 1 ? orderList.cleaning : null,
+        //     packing: assistantUser.packing === 1 ? orderList.packing : null,
+        //     dispatch: assistantUser.dispatch === 1 ? orderList.dispatch : null,
+        // };

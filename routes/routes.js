@@ -109,6 +109,7 @@ module.exports = (app) => {
 
     router.post("/addOrderList", orderList.create);
     router.get("/getOrderLists", orderList.findAll);
+    router.get("/getOrderListByAssistantUser/:id", orderList.findOrderListByAssistantUser);
 
     router.post("/addCarcass", carcass.create);
     router.get("/getCarcasses", carcass.findAll);
