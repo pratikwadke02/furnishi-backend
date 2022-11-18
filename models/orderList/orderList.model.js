@@ -5,6 +5,9 @@ module.exports = (sequelize, Sequelize) => {
       primaryKey: true,
       autoIncrement: true,
     },
+    updatedBy: {
+        type: Sequelize.STRING,
+    },
     receivedDate: {
       type: Sequelize.STRING,
     },

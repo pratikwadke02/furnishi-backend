@@ -36,6 +36,7 @@ module.exports = (app) => {
     const factoryEngineer = require('../controllers/master/factory.engineer.controller.js');
     const panel = require('../controllers/master/panel.controller.js');
 
+    const history = require('../controllers/history/history.controller.js');
 
 
 
@@ -135,6 +136,7 @@ module.exports = (app) => {
     router.post("/addPanel", panel.create);
     router.get("/getPanels", panel.findAll);
     
+    router.get("/getHistory", history.findAll);
 
 
     app.use("/api/furnishi", router);

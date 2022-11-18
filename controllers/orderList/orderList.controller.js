@@ -1,6 +1,7 @@
 const db = require('../../models');
 const OrderList = db.orderList;
 const AssistantUser = db.assistantUser;
+const History = db.history;
 const parser = require('../../utils/parser');
 
 exports.create = async(req, res) => {
@@ -16,8 +17,10 @@ exports.create = async(req, res) => {
                 orderNumber = 'ON' + (lastOrderNumberNumber + 1);
             }
         });
-        await OrderList.create({
+        console.log(req.body.assembly);
+        const data = await OrderList.create({
             orderNumber: orderNumber,
+            updatedBy: req.body.updatedBy,
             receivedDate: req.body.receivedDate,
             targetDate: req.body.targetDate,
             customerName: req.body.customerName,
@@ -73,15 +76,15 @@ exports.create = async(req, res) => {
             installationStart: req.body.installationStart,
             installationEnd: req.body.installationEnd,
             handover: req.body.handover,
-        }).then(data => {
-            res.send(data);
-        }
-        ).catch(err => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while creating the Order."
-            });
-        }
-        );
+        });
+        const updatedOn = String(data.updatedAt);
+        const history = await History.create({
+            orderNumber: orderNumber,
+            updatedBy: req.body.updatedBy,
+            updatedOn: updatedOn,
+        });
+        // console.log(history);
+        res.send(data);
     }catch(error){
         res.status(500).send({
             message: error.message || "Some error occurred while creating the OrderList."
