@@ -56,4 +56,6 @@ db.snagList = require('./snaglist/snag.list.model.js')(sequelize, Sequelize);
 
 db.history = require('./history/history.model.js')(sequelize, Sequelize);
 
+db.enquiryCosting = require('./costing/enquiry.costing.model.js')(sequelize, Sequelize);
+
 module.exports = db;

@@ -38,7 +38,7 @@ module.exports = (app) => {
 
     const history = require('../controllers/history/history.controller.js');
 
-
+    const enquiryCosting = require('../controllers/costing/costing.controller.js');
 
     const router = require('express').Router();
 
@@ -137,6 +137,8 @@ module.exports = (app) => {
     router.get("/getPanels", panel.findAll);
     
     router.get("/getHistory", history.findAll);
+
+    router.get("/getEnquiryCosting", enquiryCosting.findEnquiryCosting);
 
 
     app.use("/api/furnishi", router);

@@ -27,7 +27,13 @@ exports.create = async(req, res) => {
             workEndTime: req.body.workEndTime,
             dispatch: req.body.dispatch,
             estimate: req.body.estimate,
-            action: req.body.action
+            action: req.body.action,
+            deepClean: req.body.deepClean,
+            liveStreaming: req.body.liveStreaming,
+            installationRecording: req.body.installationRecording,
+            amc: req.body.amc,
+            amcData: req.body.amcData,
+            enquiryType: req.body.enquiryType,
         }).then(data => {
             res.send(data);
         }

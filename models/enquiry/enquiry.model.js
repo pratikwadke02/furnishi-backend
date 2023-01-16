@@ -6,44 +6,62 @@ module.exports = (sequelize, Sequelize) => {
       autoIncrement: true,
     },
     targetDate: {
-        type: Sequelize.STRING,
+      type: Sequelize.STRING,
     },
     orderNumber: {
-        type: Sequelize.STRING,
+      type: Sequelize.STRING,
     },
     sitePincode: {
-        type: Sequelize.STRING,
+      type: Sequelize.STRING,
     },
     product: {
-        type: Sequelize.STRING,
+      type: Sequelize.STRING,
     },
     area: {
-        type: Sequelize.STRING,
+      type: Sequelize.STRING,
     },
     currentStatus: {
-        type: Sequelize.STRING,
+      type: Sequelize.STRING,
     },
     carcass: {
-        type: Sequelize.STRING,
+      type: Sequelize.STRING,
     },
     shutter: {
-        type: Sequelize.STRING,
+      type: Sequelize.STRING,
     },
     workStartTime: {
-        type: Sequelize.STRING,
+      type: Sequelize.STRING,
     },
     workEndTime: {
-        type: Sequelize.STRING,
+      type: Sequelize.STRING,
     },
     dispatch: {
-        type: Sequelize.STRING,
+      type: Sequelize.STRING,
     },
     estimate: {
-        type: Sequelize.STRING,
+      type: Sequelize.STRING,
     },
     action: {
       type: Sequelize.STRING,
-    }
+    },
+    deepClean: {
+      type: Sequelize.STRING,
+    },
+    liveStreaming: {
+      type: Sequelize.STRING,
+    },
+    installationRecording: {
+      type: Sequelize.STRING,
+    },
+    amc: {
+      type: Sequelize.STRING,
+    },
+    amcData: {
+      type: Sequelize.STRING,
+    },
+    enquiryType: {
+      type: Sequelize.STRING,
+    },
   });
   return Enquiry;
 };
