@@ -20,6 +20,7 @@ db.sequelize = sequelize;
 db.user = require('./user/user.model.js')(sequelize, Sequelize);
 db.furnishiUser = require('./furnishiUser/furnishiUser.model.js')(sequelize, Sequelize);
 db.assistantUser = require('./assistantUser/assistant.user.model.js')(sequelize, Sequelize);
+db.partner = require('./partner/partner.model.js')(sequelize, Sequelize);
 
 db.enquiry = require('./enquiry/enquiry.model.js')(sequelize, Sequelize);
 

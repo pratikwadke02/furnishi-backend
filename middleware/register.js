@@ -22,3 +22,12 @@ exports.assistantValidate = (data) => {
     });
     return schema.validate(data);
 }
+
+exports.partnerValidate = (data) => {
+    const schema = joi.object().keys({
+        email: joi.string().email().required().label('Email'),
+        password: passwordComplexity().required().label('Password'),
+        confirmPassword: joi.ref('password'),
+    });
+    return schema.validate(data);
+}

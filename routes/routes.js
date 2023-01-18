@@ -2,6 +2,7 @@ module.exports = (app) => {
     const user = require('../controllers/user/user.controller.js');
     const furnishiUser = require('../controllers/furnishiUser/furnishi.user.controller.js');
     const assistantUser = require('../controllers/assistantUser/assistant.user.controller.js');
+    const partner = require('../controllers/partner/partner.controller.js');
 
     const snagList = require('../controllers/snaglist/snaglist.controller.js');
 
@@ -40,6 +41,8 @@ module.exports = (app) => {
 
     const enquiryCosting = require('../controllers/costing/costing.controller.js');
 
+    const checkDuplicatePartner = require('../middleware/partner.js');
+
     const router = require('express').Router();
 
 
@@ -55,7 +58,11 @@ module.exports = (app) => {
     router.post("/loginAssistant", assistantUser.login );
     router.get("/getAllAssistantUsers", assistantUser.findAll );
 
-    // router.post("/createSnagList", snagList.create);
+    // router.post("/registerPartner", [checkDuplicatePartner.checkDuplicatePartner], partner.register );
+    // router.post("/loginPartner", partner.login );
+    // router.get("/getAllPartners", partner.findAll );
+    // router.get("/getWorkPartners", partner.findAllWorkPartners );
+    // router.get("/getSurveyPartners", partner.findAllSurveyPartners );
     
     router.post("/addSource", source.create);
     router.get("/getSources", source.findAll);
