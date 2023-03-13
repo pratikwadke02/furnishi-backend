@@ -4,14 +4,14 @@ const AssistantUser = db.assistantUser;
 const History = db.history;
 const parser = require('../../utils/parser');
 
-exports.create = async(req, res) => {
-    try{
+exports.create = async (req, res) => {
+    try {
         var orderNumber;
         await OrderList.findAll().then(data => {
-            if(data.length === 0){
+            if (data.length === 0) {
                 orderNumber = 'ON100500';
             }
-            else{
+            else {
                 var lastOrderNumber = data[data.length - 1].orderNumber;
                 var lastOrderNumberNumber = parseInt(lastOrderNumber.substring(2));
                 orderNumber = 'ON' + (lastOrderNumberNumber + 1);
@@ -40,7 +40,7 @@ exports.create = async(req, res) => {
             location: req.body.location,
             noOfServices: req.body.noOfServices,
             area: req.body.area,
-            validatedArea : req.body.validatedArea,
+            validatedArea: req.body.validatedArea,
             orderValue: req.body.orderValue,
             paymentReceived: req.body.paymentReceived,
             currentStatus: req.body.currentStatus,
@@ -76,6 +76,7 @@ exports.create = async(req, res) => {
             installationStart: req.body.installationStart,
             installationEnd: req.body.installationEnd,
             handover: req.body.handover,
+            user_id: req.user.id
         });
         const updatedOn = String(data.updatedAt);
         const history = await History.create({
@@ -85,27 +86,27 @@ exports.create = async(req, res) => {
         });
         // console.log(history);
         res.send(data);
-    }catch(error){
+    } catch (error) {
         res.status(500).send({
             message: error.message || "Some error occurred while creating the OrderList."
         });
     }
 };
 
-exports.findAll = async(req, res) => {
-    try{
-        await OrderList.findAll().then(data => {
+exports.findAll = async (req, res) => {
+    try {
+        await OrderList.findAll({ where: { user_id: req.user.id } }).then(data => {
             res.send(data);
         });
-    }catch(err){
+    } catch (err) {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving OrderList."
         });
     }
 };
 
-exports.findOrderListByAssistantUser = async(req, res) => {
-    try{
+exports.findOrderListByAssistantUser = async (req, res) => {
+    try {
         const assistantUser = await AssistantUser.findOne({
             where: {
                 id: req.params.id
@@ -117,8 +118,8 @@ exports.findOrderListByAssistantUser = async(req, res) => {
             }
         });
         const parseData = parser.parseData(assistantUser, orderList);
-        res.send(parseData);   
-    }catch(err){
+        res.send(parseData);
+    } catch (err) {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving OrderList."
         });

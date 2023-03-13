@@ -2,13 +2,13 @@ const db = require('../../models');
 const SnagCost = db.snagCost;
 
 exports.create = async (req, res) => {
-    try{
+    try {
         var costCode;
         const snagCosts = await SnagCost.findAll();
-        if(snagCosts.length == 0){
+        if (snagCosts.length == 0) {
             costCode = "SC100500";
         }
-        else{
+        else {
             var lastSnagCost = snagCosts[snagCosts.length - 1];
             var lastDigits = lastSnagCost.costCode.substring(2, 8);
             var incrementedDigits = parseInt(lastDigits, 10) + 1;
@@ -17,6 +17,7 @@ exports.create = async (req, res) => {
         await SnagCost.create({
             costCode: costCode,
             cost: req.body.cost,
+            user_id: req.user.id
         }).then(data => {
             res.status(200).send(data);
         }
@@ -26,17 +27,17 @@ exports.create = async (req, res) => {
             });
         }
         );
-    }catch(err){
-        res.status(500).send({message: err.message});
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
 }
 
 exports.findAll = async (req, res) => {
-    try{
-        const snagCosts = await SnagCost.findAll();
+    try {
+        const snagCosts = await SnagCost.findAll({ where: { user_id: req.user.id } });
         res.status(200).send(snagCosts);
-    }catch(err){
-        res.status(500).send({message: err.message});
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
 }
 

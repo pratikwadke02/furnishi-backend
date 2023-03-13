@@ -1,13 +1,13 @@
 const db = require("../../models");
 const SalesPerson = db.salesPerson;
 
-exports.create = async(req, res) => {
-    try{
+exports.create = async (req, res) => {
+    try {
         var salesPersonCode;
         await SalesPerson.findAll().then(data => {
-            if(data.length === 0){
+            if (data.length === 0) {
                 salesPersonCode = 'SP100500';
-            }else{
+            } else {
                 var lastSalesPersonCode = data[data.length - 1].salesPersonCode;
                 var lastSalesPersonCodeNumber = parseInt(lastSalesPersonCode.substring(2));
                 salesPersonCode = 'SP' + (lastSalesPersonCodeNumber + 1);
@@ -16,6 +16,7 @@ exports.create = async(req, res) => {
         await SalesPerson.create({
             salesPersonCode: salesPersonCode,
             salesPerson: req.body.salesPerson,
+            user_id: req.user.id
         }).then(data => {
             res.send(data);
         }
@@ -24,7 +25,7 @@ exports.create = async(req, res) => {
                 message: err.message || "Some error occurred while creating the Sales Person."
             });
         });
-    }catch(err){
+    } catch (err) {
         res.status(500).send({
             message: err.message || "Some error occurred while creating the Sales Person."
         });
@@ -32,12 +33,12 @@ exports.create = async(req, res) => {
 }
 
 
-exports.findAll = async(req, res) => {
-    try{
-        await SalesPerson.findAll().then(data => {
+exports.findAll = async (req, res) => {
+    try {
+        await SalesPerson.findAll({ where: { user_id: req.user.id } }).then(data => {
             res.send(data);
         });
-    }catch(err){
+    } catch (err) {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving Sales Person."
         });

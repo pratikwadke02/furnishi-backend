@@ -2,13 +2,13 @@ const db = require('../../models');
 const StatusAction = db.statusAction;
 
 exports.create = async (req, res) => {
-    try{
+    try {
         var statusActionCode;
         const statusActions = await StatusAction.findAll();
-        if(statusActions.length == 0){
+        if (statusActions.length == 0) {
             statusActionCode = "STA100500";
         }
-        else{
+        else {
             var lastStatusAction = statusActions[statusActions.length - 1];
             var lastDigits = lastStatusAction.statusActionCode.substring(3, 9);
             var incrementedDigits = parseInt(lastDigits, 10) + 1;
@@ -17,6 +17,7 @@ exports.create = async (req, res) => {
         await StatusAction.create({
             statusActionCode: statusActionCode,
             statusAction: req.body.statusAction,
+            user_id: req.user.id
         }).then(data => {
             res.status(200).send(data);
         }
@@ -26,17 +27,17 @@ exports.create = async (req, res) => {
             });
         }
         );
-    }catch(err){
-        res.status(500).send({message: err.message});
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
 }
 
 exports.findAll = async (req, res) => {
-    try{
-        const statusActions = await StatusAction.findAll();
+    try {
+        const statusActions = await StatusAction.findAll({ where: { user_id: req.user.id } });
         res.status(200).send(statusActions);
-    }catch(err){
-        res.status(500).send({message: err.message});
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
 }
 

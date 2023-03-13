@@ -2,12 +2,12 @@ const db = require('../../models');
 const Source = db.source;
 
 exports.create = async (req, res) => {
-    try{
+    try {
         var sourceCode;
         await Source.findAll().then(data => {
-            if(data.length == 0){
+            if (data.length == 0) {
                 sourceCode = 'SC100500';
-            }else{
+            } else {
                 var lastSourceCode = data[data.length - 1].sourceCode;
                 var lastDigits = lastSourceCode.substring(2, 8);
                 var incrementedDigits = parseInt(lastDigits, 10) + 1;
@@ -24,6 +24,7 @@ exports.create = async (req, res) => {
             contactNumberTwo: req.body.contactNumberTwo,
             cordinatorName: req.body.cordinatorName,
             cordinatorNumber: req.body.cordinatorNumber,
+            user_id: req.user.id
         }).then(data => {
             res.status(200).send(data);
         }).catch(err => {
@@ -31,16 +32,16 @@ exports.create = async (req, res) => {
                 message: err.message || "Some error occurred while creating the Source."
             });
         });
-    }catch(err){
-        res.status(500).send({message: err.message});
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
 }
 
 exports.findAll = async (req, res) => {
-    try{
-        const sources = await Source.findAll();
+    try {
+        const sources = await Source.findAll({ where: { user_id: req.user.id } });
         res.status(200).send(sources);
-    }catch(err){
-        res.status(500).send({message: err.message});
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
 }

@@ -1,7 +1,7 @@
 const db = require('../../models');
 const Product = db.product;
 
-exports.create = async(req, res) => {
+exports.create = async (req, res) => {
     try {
         var productCode;
         const products = await Product.findAll();
@@ -18,6 +18,7 @@ exports.create = async(req, res) => {
             productCode: productCode,
             factoryProductCode: req.body.factoryProductCode,
             name: req.body.name,
+            user_id: req.user.id
         }).then(data => {
             res.status(200).send(data);
         }
@@ -31,13 +32,12 @@ exports.create = async(req, res) => {
     }
 }
 
-exports.findAll = async(req, res) => {
+exports.findAll = async (req, res) => {
     try {
-        const products = await Product.findAll();
+        const products = await Product.findAll({ where: { user_id: req.user.id } });
         res.status(200).send(products);
     } catch (error) {
         res.status(500).send(error);
     }
 }
 
-    

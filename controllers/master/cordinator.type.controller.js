@@ -2,12 +2,12 @@ const db = require('../../models');
 const CordinatorType = db.cordinatorType;
 
 exports.create = async (req, res) => {
-    try{
+    try {
         var cordinatorTypeCode;
         const cordinatorTypes = await CordinatorType.findAll();
-        if(cordinatorTypes.length == 0){
+        if (cordinatorTypes.length == 0) {
             cordinatorTypeCode = "CT100500";
-        }else{
+        } else {
             var lastCordinatorType = cordinatorTypes[cordinatorTypes.length - 1];
             var lastDigits = lastCordinatorType.cordinatorTypeCode.substring(2, 8);
             var incrementedDigits = parseInt(lastDigits, 10) + 1;
@@ -16,6 +16,7 @@ exports.create = async (req, res) => {
         await CordinatorType.create({
             cordinatorTypeCode: cordinatorTypeCode,
             cordinatorType: req.body.cordinatorType,
+            user_id: req.user.id
         }).then(data => {
             res.status(200).send(data);
         }
@@ -24,17 +25,17 @@ exports.create = async (req, res) => {
                 message: err.message || "Some error occurred while creating the Cordinator Type."
             });
         });
-    }catch(err){
-        res.status(500).send({message: err.message});
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
 }
 
 exports.findAll = async (req, res) => {
-    try{
-        const cordinatorTypes = await CordinatorType.findAll();
+    try {
+        const cordinatorTypes = await CordinatorType.findAll({ where: { user_id: req.user.id } });
         res.status(200).send(cordinatorTypes);
-    }catch(err){
-        res.status(500).send({message: err.message});
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
 }
 

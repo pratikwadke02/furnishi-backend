@@ -1,14 +1,14 @@
 const db = require('../../models');
 const Enquiry = db.enquiry;
 
-exports.create = async(req, res) => {
-    try{
+exports.create = async (req, res) => {
+    try {
         var orderNumber;
         await Enquiry.findAll().then(data => {
-            if(data.length === 0){
+            if (data.length === 0) {
                 orderNumber = 'ON100500';
             }
-            else{
+            else {
                 var lastOrderNumber = data[data.length - 1].orderNumber;
                 var lastOrderNumberNumber = parseInt(lastOrderNumber.substring(2));
                 orderNumber = 'ON' + (lastOrderNumberNumber + 1);
@@ -34,6 +34,7 @@ exports.create = async(req, res) => {
             amc: req.body.amc,
             amcData: req.body.amcData,
             enquiryType: req.body.enquiryType,
+            user_id: req.user.id
         }).then(data => {
             res.send(data);
         }
@@ -43,19 +44,19 @@ exports.create = async(req, res) => {
             });
         }
         );
-    }catch(error){
+    } catch (error) {
         res.status(500).send({
             message: error.message || "Some error occurred while creating the Enquiry."
         });
     }
 };
 
-exports.findAll = async(req, res) => {
-    try{
-        await Enquiry.findAll().then(data => {
+exports.findAll = async (req, res) => {
+    try {
+        await Enquiry.findAll({ where: { user_id: req.user.id } }).then(data => {
             res.send(data);
         });
-    }catch(err){
+    } catch (err) {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving Enquiry."
         });

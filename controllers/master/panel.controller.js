@@ -1,13 +1,13 @@
 const db = require("../../models");
 const Panel = db.panel;
 
-exports.create = async(req, res) => {
-    try{
+exports.create = async (req, res) => {
+    try {
         var panelCode;
         await Panel.findAll().then(data => {
-            if(data.length === 0){
+            if (data.length === 0) {
                 panelCode = 'PN100500';
-            }else{
+            } else {
                 var lastPanelCode = data[data.length - 1].panelCode;
                 var lastPanelNumber = parseInt(lastPanelCode.substring(2));
                 panelCode = 'PN' + (lastPanelNumber + 1);
@@ -16,6 +16,7 @@ exports.create = async(req, res) => {
         await Panel.create({
             panelCode: panelCode,
             panel: req.body.panel,
+            user_id: req.user.id
         }).then(data => {
             res.send(data);
         }
@@ -24,7 +25,7 @@ exports.create = async(req, res) => {
                 message: err.message || "Some error occurred while creating the Panel."
             });
         });
-    }catch(err){
+    } catch (err) {
         res.status(500).send({
             message: err.message || "Some error occurred while creating the Panel."
         });
@@ -32,12 +33,12 @@ exports.create = async(req, res) => {
 }
 
 
-exports.findAll = async(req, res) => {
-    try{
-        await Panel.findAll().then(data => {
+exports.findAll = async (req, res) => {
+    try {
+        await Panel.findAll({ where: { user_id: req.user.id } }).then(data => {
             res.send(data);
         });
-    }catch(err){
+    } catch (err) {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving Panel."
         });

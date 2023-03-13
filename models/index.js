@@ -59,4 +59,58 @@ db.history = require('./history/history.model.js')(sequelize, Sequelize);
 
 db.enquiryCosting = require('./costing/enquiry.costing.model.js')(sequelize, Sequelize);
 
+// User Enquiry Association
+db.user.hasMany(db.enquiry, { foreignKey: "user_id" });
+db.enquiry.belongsTo(db.user, { foreignKey: "user_id" });
+
+// User Master Association
+db.user.hasMany(db.cordinator, { foreignKey: "user_id", onDelete: "cascade" });
+db.cordinator.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.cordinatorType, { foreignKey: "user_id", onDelete: "cascade" });
+db.cordinatorType.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.factory, { foreignKey: "user_id", onDelete: "cascade" });
+db.factory.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.location, { foreignKey: "user_id", onDelete: "cascade" });
+db.location.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.product, { foreignKey: "user_id", onDelete: "cascade" });
+db.product.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.snagAction, { foreignKey: "user_id", onDelete: "cascade" });
+db.snagAction.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.snagCost, { foreignKey: "user_id", onDelete: "cascade" });
+db.snagCost.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.snagIssue, { foreignKey: "user_id", onDelete: "cascade" });
+db.snagIssue.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.snagSolution, { foreignKey: "user_id", onDelete: "cascade" });
+db.snagSolution.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.source, { foreignKey: "user_id", onDelete: "cascade" });
+db.source.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.statusAction, { foreignKey: "user_id", onDelete: "cascade" });
+db.statusAction.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.status, { foreignKey: "user_id", onDelete: "cascade" });
+db.status.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.workType, { foreignKey: "user_id", onDelete: "cascade" });
+db.workType.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.carcass, { foreignKey: "user_id", onDelete: "cascade" });
+db.carcass.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.shutter, { foreignKey: "user_id", onDelete: "cascade" });
+db.shutter.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.designer, { foreignKey: "user_id", onDelete: "cascade" });
+db.designer.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.planner, { foreignKey: "user_id", onDelete: "cascade" });
+db.planner.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.salesPerson, { foreignKey: "user_id", onDelete: "cascade" });
+db.salesPerson.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.finalSiteSurveyor, { foreignKey: "user_id", onDelete: "cascade" });
+db.finalSiteSurveyor.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.factoryEngineer, { foreignKey: "user_id", onDelete: "cascade" });
+db.factoryEngineer.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.panel, { foreignKey: "user_id", onDelete: "cascade" });
+db.panel.belongsTo(db.user, { foreignKey: "user_id" });
+
+// User Order Association
+db.user.hasMany(db.order, { foreignKey: "user_id" });
+db.order.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.orderList, { foreignKey: "user_id" });
+db.orderList.belongsTo(db.user, { foreignKey: "user_id" });
+
 module.exports = db;

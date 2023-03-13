@@ -2,12 +2,12 @@ const db = require('../../models');
 const Status = db.status;
 
 exports.create = async (req, res) => {
-    try{
+    try {
         var statusCode;
         const statuses = await Status.findAll();
-        if(statuses.length == 0){
+        if (statuses.length == 0) {
             statusCode = "S100500";
-        }else{
+        } else {
             var lastStatus = statuses[statuses.length - 1];
             var lastDigits = lastStatus.statusCode.substring(1, 7);
             var incrementedDigits = parseInt(lastDigits, 10) + 1;
@@ -16,6 +16,7 @@ exports.create = async (req, res) => {
         await Status.create({
             statusCode: statusCode,
             status: req.body.status,
+            user_id: req.user.id
         }).then(data => {
             res.status(200).send(data);
         }
@@ -24,17 +25,17 @@ exports.create = async (req, res) => {
                 message: err.message || "Some error occurred while creating the Status."
             });
         });
-    }catch(err){
-        res.status(500).send({message: err.message});
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
 }
 
 exports.findAll = async (req, res) => {
-    try{
-        const statuses = await Status.findAll();
+    try {
+        const statuses = await Status.findAll({ where: { user_id: req.user.id } });
         res.status(200).send(statuses);
-    }catch(err){
-        res.status(500).send({message: err.message});
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
 }
 

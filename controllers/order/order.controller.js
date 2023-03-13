@@ -67,6 +67,7 @@ exports.create = async (req, res) => {
       totalExpenseTillDate: req.body.totalExpenseTillDate,
       estimatedQuoteAfterDiscount: req.body.estimatedQuoteAfterDiscount,
       status: req.body.status,
+      user_id: req.user.id
     })
       .then((data) => {
         res.send(data);
@@ -86,7 +87,7 @@ exports.create = async (req, res) => {
 
 exports.fmOrder = async (req, res) => {
   try {
-    await Order.findAll()
+    await Order.findAll({ where: { user_id: req.user.id } })
       .then((data) => {
         res.send(data);
       })
@@ -210,36 +211,36 @@ exports.fcOrder = async (req, res) => {
 };
 
 exports.ccOrder = async (req, res) => {
-    try {
-        const data = await Order.findAll();
-        const ccOrder = data.map((order) => {
-        return {
-            orderId: order.orderId,
-            customerId: order.customerId,
-            name: order.name,
-            address: order.address,
-            pincode: order.pincode,
-            locationCode: order.locationCode,
-            customerCordinator: order.customerCordinator,
-            customerCordinatorNumber: order.customerCordinatorNumber,
-            sourceCordinator: order.sourceCordinator,
-            sourceCordinatorNumber: order.sourceCordinatorNumber,
-            factoryCordinator: order.factoryCordinator,
-            factoryCordinatorNumber: order.factoryCordinatorNumber,
-            productId: order.productId,
-            product: order.product,
-            productCode: order.productCode,
-            targetStartDate: order.targetStartDate,
-            targetEndDate: order.targetEndDate,
-            startDate: order.startDate,
-            endDate: order.endDate,
-            status: order.status,
-        };
-        });
-        res.status(200).send(ccOrder);
-    } catch (error) {
-        res.status(500).send({
-        message: err.message || "Some error occurred while retrieving orders.",
-        });
-    }
-    }
+  try {
+    const data = await Order.findAll();
+    const ccOrder = data.map((order) => {
+      return {
+        orderId: order.orderId,
+        customerId: order.customerId,
+        name: order.name,
+        address: order.address,
+        pincode: order.pincode,
+        locationCode: order.locationCode,
+        customerCordinator: order.customerCordinator,
+        customerCordinatorNumber: order.customerCordinatorNumber,
+        sourceCordinator: order.sourceCordinator,
+        sourceCordinatorNumber: order.sourceCordinatorNumber,
+        factoryCordinator: order.factoryCordinator,
+        factoryCordinatorNumber: order.factoryCordinatorNumber,
+        productId: order.productId,
+        product: order.product,
+        productCode: order.productCode,
+        targetStartDate: order.targetStartDate,
+        targetEndDate: order.targetEndDate,
+        startDate: order.startDate,
+        endDate: order.endDate,
+        status: order.status,
+      };
+    });
+    res.status(200).send(ccOrder);
+  } catch (error) {
+    res.status(500).send({
+      message: err.message || "Some error occurred while retrieving orders.",
+    });
+  }
+}

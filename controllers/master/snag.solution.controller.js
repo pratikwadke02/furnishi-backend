@@ -2,13 +2,13 @@ const db = require('../../models');
 const SnagSolution = db.snagSolution;
 
 exports.create = async (req, res) => {
-    try{
+    try {
         var solutionCode;
         const snagSolutions = await SnagSolution.findAll();
-        if(snagSolutions.length == 0){
+        if (snagSolutions.length == 0) {
             solutionCode = "SS100500";
         }
-        else{
+        else {
             var lastSnagSolution = snagSolutions[snagSolutions.length - 1];
             var lastDigits = lastSnagSolution.solutionCode.substring(2, 8);
             var incrementedDigits = parseInt(lastDigits, 10) + 1;
@@ -17,6 +17,7 @@ exports.create = async (req, res) => {
         await SnagSolution.create({
             solutionCode: solutionCode,
             solution: req.body.solution,
+            user_id: req.user.id
         }).then(data => {
             res.status(200).send(data);
         }
@@ -26,17 +27,17 @@ exports.create = async (req, res) => {
             });
         }
         );
-    }catch(err){
-        res.status(500).send({message: err.message});
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
 }
 
 exports.findAll = async (req, res) => {
-    try{
-        const snagSolutions = await SnagSolution.findAll();
+    try {
+        const snagSolutions = await SnagSolution.findAll({ where: { user_id: req.user.id } });
         res.status(200).send(snagSolutions);
-    }catch(err){
-        res.status(500).send({message: err.message});
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
 }
 
