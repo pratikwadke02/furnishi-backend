@@ -17,23 +17,29 @@ exports.register = async (req, res) => {
         console.log(error);
         return res.status(400).send(error.details[0].message);
     }
-    const user = await User.findOne({
+    const isUser = await User.findOne({
         where: {
             email: req.body.email,
         }
     });
-    if (user) {
-        return res.status(400).send('User already registered.');
+    if (isUser) {
+        return res.status(400).send('User already registered!');
     }
     const salt = await bcrypt.genSalt(SALT);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    await User.create({
+    const user = await User.create({
         ...req.body,
         password: hashedPassword,
     });
-    res.send(
-        {data: req.body}
-        );
+    const data = {
+        id: user.id
+    }
+    const authToken = jwt.sign(data, process.env.JWT_SECRET_KEY);
+    res.status(200).send({
+        message: "User registered successfully",
+        data : user,
+        authToken: authToken
+    });
 }catch(err){
     console.log(err);
     res.status(500).send(err);
@@ -66,6 +72,7 @@ exports.login = async (req, res) => {
         const authToken = jwt.sign(data, process.env.JWT_SECRET_KEY);
         res.status(201).send({
             message: "User LogedIn successfully",
+            data : user,
             authToken: authToken
         });
     }catch(error){
