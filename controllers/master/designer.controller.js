@@ -1,5 +1,6 @@
 const db = require("../../models");
 const Designer = db.designer;
+const { Op } = require("sequelize");
 
 exports.create = async (req, res) => {
     try {
@@ -41,5 +42,42 @@ exports.findAll = async (req, res) => {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving Designer."
         });
+    }
+}
+
+exports.deleteDesigner = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const designerId = req.params.id;
+        const designer = await Designer.findOne({ where: { [Op.and]: [{ id: designerId }, { user_id: userId }] } });
+        if (!designer) {
+            return res.status(400).send({ message: "Designer is not present!" });
+        };
+        await designer.destroy();
+        res.status(200).send({
+            message: `Designer deleted successfully! Id: ${designerId}`
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+};
+
+exports.updateDesigner = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const designerId = req.params.id;
+        const designer = await Designer.findOne({ where: { [Op.and]: [{ id: designerId }, { user_id: userId }] } });
+        if (!designer) {
+            return res.status(400).send({ message: "Designer is not present!" });
+        };
+        await designer.update({
+            ...designer,
+            designer: req.body.designer
+        });
+        res.status(200).send({ message: `Designer modified successfully! ID: ${designerId}` });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
     }
 }

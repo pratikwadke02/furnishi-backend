@@ -1,5 +1,6 @@
 const db = require('../../models');
 const Status = db.status;
+const { Op } = require("sequelize");
 
 exports.create = async (req, res) => {
     try {
@@ -39,3 +40,39 @@ exports.findAll = async (req, res) => {
     }
 }
 
+exports.deleteStatus = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const statusId = req.params.id;
+        const status = await Status.findOne({ where: { [Op.and]: [{ id: statusId }, { user_id: userId }] } });
+        if (!status) {
+            return res.status(400).send({ message: "Status is not present!" });
+        };
+        await status.destroy();
+        res.status(200).send({
+            message: `Status deleted successfully! Id: ${statusId}`
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+};
+
+exports.updateStatus = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const statusId = req.params.id;
+        const status = await Status.findOne({ where: { [Op.and]: [{ id: statusId }, { user_id: userId }] } });
+        if (!status) {
+            return res.status(400).send({ message: "Status is not present!" });
+        };
+        await status.update({
+            ...status,
+            status: req.body.status
+        });
+        res.status(200).send({ message: `Status modified successfully! ID: ${statusId}}` });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+}

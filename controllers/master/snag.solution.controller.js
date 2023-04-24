@@ -1,5 +1,6 @@
 const db = require('../../models');
 const SnagSolution = db.snagSolution;
+const { Op } = require("sequelize");
 
 exports.create = async (req, res) => {
     try {
@@ -41,3 +42,39 @@ exports.findAll = async (req, res) => {
     }
 }
 
+exports.deleteSnagSolution = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const snagSolutionId = req.params.id;
+        const snagSolution = await SnagSolution.findOne({ where: { [Op.and]: [{ id: snagSolutionId }, { user_id: userId }] } });
+        if (!snagSolution) {
+            return res.status(400).send({ message: "Snag Solution is not present!" });
+        };
+        await snagSolution.destroy();
+        res.status(200).send({
+            message: `Snag Solution deleted successfully! Id: ${snagSolutionId}`
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+};
+
+exports.updateSnagSolution = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const snagSolutionId = req.params.id;
+        const snagSolution = await SnagSolution.findOne({ where: { [Op.and]: [{ id: snagSolutionId }, { user_id: userId }] } });
+        if (!snagSolution) {
+            return res.status(400).send({ message: "Snag Solution is not present!" });
+        };
+        await snagSolution.update({
+            ...snagSolution,
+            solution: req.body.solution
+        });
+        res.status(200).send({ message: `Snag Solution modified successfully! ID: ${snagSolutionId}}` });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+}

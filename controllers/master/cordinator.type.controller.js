@@ -1,5 +1,6 @@
 const db = require('../../models');
 const CordinatorType = db.cordinatorType;
+const { Op } = require("sequelize");
 
 exports.create = async (req, res) => {
     try {
@@ -39,3 +40,39 @@ exports.findAll = async (req, res) => {
     }
 }
 
+exports.deleteCordinatorType = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const cordinatorTypeId = req.params.id;
+        const cordinatorType = await CordinatorType.findOne({ where: { [Op.and]: [{ id: cordinatorTypeId }, { user_id: userId }] } });
+        if (!cordinatorType) {
+            return res.status(400).send({ message: "Cordinator Type is not present!" });
+        };
+        await cordinatorType.destroy();
+        res.status(200).send({
+            message: `Cordinator Type deleted successfully! Id: ${cordinatorTypeId}`
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+};
+
+exports.updateCordinatorType = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const cordinatorTypeId = req.params.id;
+        const cordinatorType = await CordinatorType.findOne({ where: { [Op.and]: [{ id: cordinatorTypeId }, { user_id: userId }] } });
+        if (!cordinatorType) {
+            return res.status(400).send({ message: "Cordinator Type is not present!" });
+        };
+        await cordinatorType.update({
+            ...cordinatorType,
+            cordinatorType: req.body.cordinatorType
+        });
+        res.status(200).send({ message: `Cordinator Type modified successfully! ID: ${cordinatorTypeId}` });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+}

@@ -1,5 +1,6 @@
 const db = require("../../models");
 const Planner = db.planner;
+const { Op } = require("sequelize");
 
 exports.create = async (req, res) => {
     try {
@@ -42,5 +43,42 @@ exports.findAll = async (req, res) => {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving Planner."
         });
+    }
+}
+
+exports.deletePlanner = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const plannerId = req.params.id;
+        const planner = await Planner.findOne({ where: { [Op.and]: [{ id: plannerId }, { user_id: userId }] } });
+        if (!planner) {
+            return res.status(400).send({ message: "Planner is not present!" });
+        };
+        await planner.destroy();
+        res.status(200).send({
+            message: `Planner deleted successfully! Id: ${plannerId}`
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+};
+
+exports.updatePlanner = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const plannerId = req.params.id;
+        const planner = await Planner.findOne({ where: { [Op.and]: [{ id: plannerId }, { user_id: userId }] } });
+        if (!planner) {
+            return res.status(400).send({ message: "Planner is not present!" });
+        };
+        await planner.update({
+            ...planner,
+            planner: req.body.planner
+        });
+        res.status(200).send({ message: `Planner modified successfully! ID: ${plannerId}}` });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
     }
 }

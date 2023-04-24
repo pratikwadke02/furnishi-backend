@@ -1,5 +1,6 @@
 const db = require("../../models");
 const Panel = db.panel;
+const { Op } = require("sequelize");
 
 exports.create = async (req, res) => {
     try {
@@ -42,5 +43,42 @@ exports.findAll = async (req, res) => {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving Panel."
         });
+    }
+}
+
+exports.deletePanel = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const panelId = req.params.id;
+        const panel = await Panel.findOne({ where: { [Op.and]: [{ id: panelId }, { user_id: userId }] } });
+        if (!panel) {
+            return res.status(400).send({ message: "panel is not present!" });
+        };
+        await panel.destroy();
+        res.status(200).send({
+            message: `Panel deleted successfully! Id: ${panelId}`
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+};
+
+exports.updatePanel = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const panelId = req.params.id;
+        const panel = await Panel.findOne({ where: { [Op.and]: [{ id: panelId }, { user_id: userId }] } });
+        if (!panel) {
+            return res.status(400).send({ message: "Panel is not present!" });
+        };
+        await panel.update({
+            ...panel,
+            panel: req.body.panel
+        });
+        res.status(200).send({ message: `Panel modified successfully! ID: ${panelId}}` });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
     }
 }

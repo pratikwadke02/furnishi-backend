@@ -59,6 +59,8 @@ db.history = require('./history/history.model.js')(sequelize, Sequelize);
 
 db.enquiryCosting = require('./costing/enquiry.costing.model.js')(sequelize, Sequelize);
 
+db.notification = require('./furnishiNotification/notificationModel')(sequelize, Sequelize);
+
 // User Enquiry Association
 db.user.hasMany(db.enquiry, { foreignKey: "user_id" });
 db.enquiry.belongsTo(db.user, { foreignKey: "user_id" });
@@ -108,9 +110,13 @@ db.user.hasMany(db.panel, { foreignKey: "user_id", onDelete: "cascade" });
 db.panel.belongsTo(db.user, { foreignKey: "user_id" });
 
 // User Order Association
-db.user.hasMany(db.order, { foreignKey: "user_id" });
-db.order.belongsTo(db.user, { foreignKey: "user_id" });
+db.user.hasMany(db.order, { foreignKey: "user_id" });  // sourceKey: 'firstName', foreignKey: 'userFirstName'
+db.order.belongsTo(db.user, { foreignKey: "user_id" }); // targetKey: 'firstName', foreignKey: 'userFirstName'
 db.user.hasMany(db.orderList, { foreignKey: "user_id" });
 db.orderList.belongsTo(db.user, { foreignKey: "user_id" });
+
+// FurnishiUser and Notification Association
+db.furnishiUser.hasMany(db.notification, { foreignKey: "furnishiUser_id" });
+db.notification.belongsTo(db.furnishiUser, { foreignKey: "furnishiUser_id" });
 
 module.exports = db;

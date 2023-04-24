@@ -14,6 +14,7 @@ module.exports = (app) => {
     const furnishiOrder = require('../controllers/furnishiOrder/furnishi.order.controller.js');
 
     const enquiry = require('../controllers/enquiry/enquiry.controller.js');
+    const { findUserNotification } = require('../controllers/furnishiNotification/notificationController');
 
     const cordinator = require('../controllers/master/cordinator.controller.js');
     const cordinatorType = require('../controllers/master/cordinator.type.controller.js');
@@ -42,7 +43,7 @@ module.exports = (app) => {
     const enquiryCosting = require('../controllers/costing/costing.controller.js');
     // middleware
     const checkDuplicatePartner = require('../middleware/partner.js');
-    const { verifyToken } = require('../middleware/verifyUserToken');
+    const { verifyUserToken } = require('../middleware/verifyToken');
 
     const router = require('express').Router();
 
@@ -65,50 +66,50 @@ module.exports = (app) => {
     // router.get("/getWorkPartners", partner.findAllWorkPartners );
     // router.get("/getSurveyPartners", partner.findAllSurveyPartners );
 
-    router.post("/addSource", verifyToken, source.create);
-    router.get("/getSources", verifyToken, source.findAll);
+    router.post("/addSource", verifyUserToken, source.create);
+    router.get("/getSources", verifyUserToken, source.findAll);
 
-    router.post("/addCordinatorType", verifyToken, cordinatorType.create);
-    router.get("/getCordinatorTypes", verifyToken, cordinatorType.findAll);
+    router.post("/addCordinatorType", verifyUserToken, cordinatorType.create);
+    router.get("/getCordinatorTypes", verifyUserToken, cordinatorType.findAll);
 
-    router.post("/addCordinator", verifyToken, cordinator.create);
-    router.get("/getCordinators", verifyToken, cordinator.findAll);
+    router.post("/addCordinator", verifyUserToken, cordinator.create);
+    router.get("/getCordinators", verifyUserToken, cordinator.findAll);
 
-    router.post("/addFactoryInfo", verifyToken, factory.create);
-    router.get("/getFactoryInfos", verifyToken, factory.findAll);
+    router.post("/addFactoryInfo", verifyUserToken, factory.create);
+    router.get("/getFactoryInfos", verifyUserToken, factory.findAll);
 
-    router.post("/addProduct", verifyToken, product.create);
-    router.get("/getProducts", verifyToken, product.findAll);
+    router.post("/addProduct", verifyUserToken, product.create);
+    router.get("/getProducts", verifyUserToken, product.findAll);
 
-    router.post("/addLocation", verifyToken, location.create);
-    router.get("/getLocations", verifyToken, location.findAll);
+    router.post("/addLocation", verifyUserToken, location.create);
+    router.get("/getLocations", verifyUserToken, location.findAll);
 
-    router.post("/addSnagAction", verifyToken, snagAction.create);
-    router.get("/getSnagActions", verifyToken, snagAction.findAll);
+    router.post("/addSnagAction", verifyUserToken, snagAction.create);
+    router.get("/getSnagActions", verifyUserToken, snagAction.findAll);
 
-    router.post("/addSnagCost", verifyToken, snagCost.create);
-    router.get("/getSnagCosts", verifyToken, snagCost.findAll);
+    router.post("/addSnagCost", verifyUserToken, snagCost.create);
+    router.get("/getSnagCosts", verifyUserToken, snagCost.findAll);
 
-    router.post("/addSnagIssue", verifyToken, snagIssue.create);
-    router.get("/getSnagIssues", verifyToken, snagIssue.findAll);
+    router.post("/addSnagIssue", verifyUserToken, snagIssue.create);
+    router.get("/getSnagIssues", verifyUserToken, snagIssue.findAll);
 
-    router.post("/addSnagSolution", verifyToken, snagSolution.create);
-    router.get("/getSnagSolutions", verifyToken, snagSolution.findAll);
+    router.post("/addSnagSolution", verifyUserToken, snagSolution.create);
+    router.get("/getSnagSolutions", verifyUserToken, snagSolution.findAll);
 
-    router.post("/addStatusAction", verifyToken, statusAction.create);
-    router.get("/getStatusActions", verifyToken, statusAction.findAll);
+    router.post("/addStatusAction", verifyUserToken, statusAction.create);
+    router.get("/getStatusActions", verifyUserToken, statusAction.findAll);
 
-    router.post("/addStatus", verifyToken, status.create);
-    router.get("/getStatuses", verifyToken, status.findAll);
+    router.post("/addStatus", verifyUserToken, status.create);
+    router.get("/getStatuses", verifyUserToken, status.findAll);
 
-    router.post("/addWorkType", verifyToken, workType.create);
-    router.get("/getWorkTypes", verifyToken, workType.findAll);
+    router.post("/addWorkType", verifyUserToken, workType.create);
+    router.get("/getWorkTypes", verifyUserToken, workType.findAll);
 
-    router.post("/addEnquiry", verifyToken, enquiry.create);
-    router.get("/getEnquiries", verifyToken, enquiry.findAll);
+    router.post("/addEnquiry", verifyUserToken, enquiry.create);
+    router.get("/getEnquiries", verifyUserToken, enquiry.findAll);
 
-    router.post("/addOrder", verifyToken, order.create);
-    router.get("/getOrders", verifyToken, order.fmOrder);
+    router.post("/addOrder", verifyUserToken, order.create);
+    router.get("/getOrders", verifyUserToken, order.fmOrder);
 
     router.post("/addFurnishiOrder", furnishiOrder.create);
     router.get("/getFurnishiOrders", furnishiOrder.findAll);
@@ -116,37 +117,39 @@ module.exports = (app) => {
     router.post("/addSnaglist", snagList.createSnagList);
     router.get("/getSnaglists", snagList.fmSnaglist);
 
-    router.post("/addOrderList", verifyToken, orderList.create);
-    router.get("/getOrderLists", verifyToken, orderList.findAll);
+    router.post("/addOrderList", verifyUserToken, orderList.create);
+    router.get("/getOrderLists", verifyUserToken, orderList.findAll);
     router.get("/getOrderListByAssistantUser/:id", orderList.findOrderListByAssistantUser);
 
-    router.post("/addCarcass", verifyToken, carcass.create);
-    router.get("/getCarcasses", verifyToken, carcass.findAll);
+    router.post("/addCarcass", verifyUserToken, carcass.create);
+    router.get("/getCarcasses", verifyUserToken, carcass.findAll);
 
-    router.post("/addShutter", verifyToken, shutter.create);
-    router.get("/getShutters", verifyToken, shutter.findAll);
+    router.post("/addShutter", verifyUserToken, shutter.create);
+    router.get("/getShutters", verifyUserToken, shutter.findAll);
 
-    router.post("/addDesigner", verifyToken, designer.create);
-    router.get("/getDesigners", verifyToken, designer.findAll);
+    router.post("/addDesigner", verifyUserToken, designer.create);
+    router.get("/getDesigners", verifyUserToken, designer.findAll);
 
-    router.post("/addPlanner", verifyToken, planner.create);
-    router.get("/getPlanners", verifyToken, planner.findAll);
+    router.post("/addPlanner", verifyUserToken, planner.create);
+    router.get("/getPlanners", verifyUserToken, planner.findAll);
 
-    router.post("/addSalesPerson", verifyToken, salesPerson.create);
-    router.get("/getSalesPersons", verifyToken, salesPerson.findAll);
+    router.post("/addSalesPerson", verifyUserToken, salesPerson.create);
+    router.get("/getSalesPersons", verifyUserToken, salesPerson.findAll);
 
-    router.post("/addFinalSiteSurveyor", verifyToken, finalSiteSurveyor.create);
-    router.get("/getFinalSiteSurveyors", verifyToken, finalSiteSurveyor.findAll);
+    router.post("/addFinalSiteSurveyor", verifyUserToken, finalSiteSurveyor.create);
+    router.get("/getFinalSiteSurveyors", verifyUserToken, finalSiteSurveyor.findAll);
 
-    router.post("/addFactoryEngineer", verifyToken, factoryEngineer.create);
-    router.get("/getFactoryEngineers", verifyToken, factoryEngineer.findAll);
+    router.post("/addFactoryEngineer", verifyUserToken, factoryEngineer.create);
+    router.get("/getFactoryEngineers", verifyUserToken, factoryEngineer.findAll);
 
-    router.post("/addPanel", verifyToken, panel.create);
-    router.get("/getPanels", verifyToken, panel.findAll);
+    router.post("/addPanel", verifyUserToken, panel.create);
+    router.get("/getPanels", verifyUserToken, panel.findAll);
 
     router.get("/getHistory", history.findAll);
 
     router.get("/getEnquiryCosting", enquiryCosting.findEnquiryCosting);
+
+    router.get("/myNotifications", verifyUserToken, findUserNotification);
 
     app.use("/api/furnishi", router);
 }

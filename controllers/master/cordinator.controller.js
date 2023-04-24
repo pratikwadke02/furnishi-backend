@@ -1,5 +1,6 @@
 const db = require('../../models');
 const Cordinator = db.cordinator;
+const { Op } = require("sequelize");
 
 exports.create = async (req, res) => {
     try {
@@ -48,6 +49,50 @@ exports.findAll = async (req, res) => {
         res.status(200).send(coordinators);
     } catch (err) {
         res.status(500).send({ message: err.message });
+    }
+}
+
+exports.deleteCordinator = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const cordinatorId = req.params.id;
+        const cordinators = await Cordinator.findOne({ where: { [Op.and]: [{ id: cordinatorId }, { user_id: userId }] } });
+        if (!cordinators) {
+            return res.status(400).send({ message: "Cordinator is not present!" });
+        };
+        await cordinators.destroy();
+        res.status(200).send({
+            message: `Cordinator deleted successfully! Id: ${cordinatorId}`
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+};
+
+exports.updateCordinator = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const cordinatorId = req.params.id;
+        const cordinators = await Cordinator.findOne({ where: { [Op.and]: [{ id: cordinatorId }, { user_id: userId }] } });
+        if (!cordinators) {
+            return res.status(400).send({ message: "Cordinator is not present!" });
+        };
+        await cordinators.update({
+            ...cordinators,
+            sourceCode: req.body.sourceCode,
+            source: req.body.source,
+            firmName: req.body.firmName,
+            firmAddress: req.body.firmAddress,
+            cordinatorType: req.body.cordinatorType,
+            cordinatorName: req.body.cordinatorName,
+            cordinatorNumber: req.body.cordinatorNumber,
+            cordinatorEmailID: req.body.emailId
+        });
+        res.status(200).send({ message: `Cordinator modified successfully! ID: ${cordinatorId}` });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
     }
 }
 

@@ -1,5 +1,6 @@
 const db = require("../../models");
 const SalesPerson = db.salesPerson;
+const { Op } = require("sequelize");
 
 exports.create = async (req, res) => {
     try {
@@ -42,5 +43,42 @@ exports.findAll = async (req, res) => {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving Sales Person."
         });
+    }
+}
+
+exports.deleteSalesPerson = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const salesPersonId = req.params.id;
+        const salesPerson = await SalesPerson.findOne({ where: { [Op.and]: [{ id: salesPersonId }, { user_id: userId }] } });
+        if (!salesPerson) {
+            return res.status(400).send({ message: "Sales Person is not present!" });
+        };
+        await salesPerson.destroy();
+        res.status(200).send({
+            message: `Sales person deleted successfully! Id: ${salesPersonId}`
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+};
+
+exports.updateSalesPerson = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const salesPersonId = req.params.id;
+        const salesPerson = await SalesPerson.findOne({ where: { [Op.and]: [{ id: salesPersonId }, { user_id: userId }] } });
+        if (!salesPerson) {
+            return res.status(400).send({ message: "Sales Person is not present!" });
+        };
+        await salesPerson.update({
+            ...salesPerson,
+            salesPerson: req.body.salesPerson
+        });
+        res.status(200).send({ message: `Sales Person modified successfully! ID: ${salesPersonId}}` });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
     }
 }

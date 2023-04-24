@@ -1,5 +1,6 @@
 const db = require('../../models');
 const StatusAction = db.statusAction;
+const { Op } = require("sequelize");
 
 exports.create = async (req, res) => {
     try {
@@ -41,3 +42,39 @@ exports.findAll = async (req, res) => {
     }
 }
 
+exports.deleteStatusAction = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const statusActionId = req.params.id;
+        const statusAction = await StatusAction.findOne({ where: { [Op.and]: [{ id: statusActionId }, { user_id: userId }] } });
+        if (!statusAction) {
+            return res.status(400).send({ message: "Status Action is not present!" });
+        };
+        await statusAction.destroy();
+        res.status(200).send({
+            message: `Status Action deleted successfully! Id: ${statusActionId}`
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+};
+
+exports.updateStatusAction = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const statusActionId = req.params.id;
+        const statusAction = await StatusAction.findOne({ where: { [Op.and]: [{ id: statusActionId }, { user_id: userId }] } });
+        if (!statusAction) {
+            return res.status(400).send({ message: "Status Action is not present!" });
+        };
+        await statusAction.update({
+            ...statusAction,
+            statusAction: req.body.statusAction
+        });
+        res.status(200).send({ message: `Status Action modified successfully! ID: ${statusActionId}}` });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+}

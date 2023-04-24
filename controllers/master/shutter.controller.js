@@ -1,5 +1,6 @@
 const db = require("../../models");
 const Shutter = db.shutter;
+const { Op } = require("sequelize");
 
 exports.create = async (req, res) => {
     try {
@@ -42,5 +43,42 @@ exports.findAll = async (req, res) => {
         res.status(500).send({
             message: err.message || "Some error occurred while retrieving Shutter."
         });
+    }
+}
+
+exports.deleteShutter = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const shutterId = req.params.id;
+        const shutter = await Shutter.findOne({ where: { [Op.and]: [{ id: shutterId }, { user_id: userId }] } });
+        if (!shutter) {
+            return res.status(400).send({ message: "Shutter is not present!" });
+        };
+        await shutter.destroy();
+        res.status(200).send({
+            message: `Shutter deleted successfully! Id: ${shutterId}`
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+};
+
+exports.updateShutter = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const shutterId = req.params.id;
+        const shutter = await Shutter.findOne({ where: { [Op.and]: [{ id: shutterId }, { user_id: userId }] } });
+        if (!shutter) {
+            return res.status(400).send({ message: "Shutter is not present!" });
+        };
+        await shutter.update({
+            ...shutter,
+            shutter: req.body.shutter
+        });
+        res.status(200).send({ message: `Shutter modified successfully! ID: ${shutterId}}` });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
     }
 }

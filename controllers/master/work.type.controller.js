@@ -1,5 +1,6 @@
 const db = require('../../models');
 const WorkType = db.workType;
+const { Op } = require("sequelize");
 
 exports.create = async (req, res) => {
     try {
@@ -36,5 +37,42 @@ exports.findAll = async (req, res) => {
         res.status(200).send(workTypes);
     } catch (err) {
         res.status(500).send({ message: err.message });
+    }
+}
+
+exports.deleteWorkType = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const workTypeId = req.params.id;
+        const workType = await WorkType.findOne({ where: { [Op.and]: [{ id: workTypeId }, { user_id: userId }] } });
+        if (!workType) {
+            return res.status(400).send({ message: "Work Type is not present!" });
+        };
+        await workType.destroy();
+        res.status(200).send({
+            message: `Work Type deleted successfully! Id: ${workTypeId}`
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+};
+
+exports.updateWorkType = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const workTypeId = req.params.id;
+        const workType = await WorkType.findOne({ where: { [Op.and]: [{ id: workTypeId }, { user_id: userId }] } });
+        if (!workType) {
+            return res.status(400).send({ message: "Work Type is not present!" });
+        };
+        await workType.update({
+            ...workType,
+            workType: req.body.workType
+        });
+        res.status(200).send({ message: `Work Type modified successfully! ID: ${workTypeId}}` });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
     }
 }

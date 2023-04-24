@@ -1,5 +1,6 @@
 const db = require('../../models');
 const SnagAction = db.snagAction;
+const { Op } = require("sequelize");
 
 exports.create = async (req, res) => {
     try {
@@ -38,5 +39,42 @@ exports.findAll = async (req, res) => {
         res.status(200).send(snagActions);
     } catch (err) {
         res.status(500).send({ message: err.message });
+    }
+}
+
+exports.deleteSnagAction = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const snagActionId = req.params.id;
+        const snagAction = await SnagAction.findOne({ where: { [Op.and]: [{ id: snagActionId }, { user_id: userId }] } });
+        if (!snagAction) {
+            return res.status(400).send({ message: "Snag Action is not present!" });
+        };
+        await snagAction.destroy();
+        res.status(200).send({
+            message: `Snag Action deleted successfully! Id: ${snagActionId}`
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+};
+
+exports.updateSnagAction = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const snagActionId = req.params.id;
+        const snagAction = await SnagAction.findOne({ where: { [Op.and]: [{ id: snagActionId }, { user_id: userId }] } });
+        if (!snagAction) {
+            return res.status(400).send({ message: "Snag Action is not present!" });
+        };
+        await snagAction.update({
+            ...snagAction,
+            action: req.body.action
+        });
+        res.status(200).send({ message: `Snag Action modified successfully! ID: ${snagActionId}}` });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
     }
 }

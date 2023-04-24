@@ -1,5 +1,6 @@
 const db = require('../../models');
 const Product = db.product;
+const { Op } = require("sequelize");
 
 exports.create = async (req, res) => {
     try {
@@ -41,3 +42,40 @@ exports.findAll = async (req, res) => {
     }
 }
 
+exports.deleteProduct = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const productId = req.params.id;
+        const product = await Product.findOne({ where: { [Op.and]: [{ id: productId }, { user_id: userId }] } });
+        if (!product) {
+            return res.status(400).send({ message: "Product is not present!" });
+        };
+        await product.destroy();
+        res.status(200).send({
+            message: `Product deleted successfully! Id: ${productId}`
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+};
+
+exports.updateProduct = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const productId = req.params.id;
+        const product = await Product.findOne({ where: { [Op.and]: [{ id: productId }, { user_id: userId }] } });
+        if (!product) {
+            return res.status(400).send({ message: "Product is not present!" });
+        };
+        await product.update({
+            ...product,
+            factoryProductCode: req.body.factoryProductCode,
+            name: req.body.name
+        });
+        res.status(200).send({ message: `Product modified successfully! ID: ${productId}}` });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+}

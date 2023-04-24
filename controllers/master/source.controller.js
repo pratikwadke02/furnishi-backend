@@ -1,5 +1,6 @@
 const db = require('../../models');
 const Source = db.source;
+const { Op } = require("sequelize");
 
 exports.create = async (req, res) => {
     try {
@@ -43,5 +44,49 @@ exports.findAll = async (req, res) => {
         res.status(200).send(sources);
     } catch (err) {
         res.status(500).send({ message: err.message });
+    }
+}
+
+exports.deleteSource = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const sourceId = req.params.id;
+        const source = await Source.findOne({ where: { [Op.and]: [{ id: sourceId }, { user_id: userId }] } });
+        if (!source) {
+            return res.status(400).send({ message: "Source is not present!" });
+        };
+        await source.destroy();
+        res.status(200).send({
+            message: `Source deleted successfully! Id: ${sourceId}`
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
+    }
+};
+
+exports.updateSource = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const sourceId = req.params.id;
+        const source = await Source.findOne({ where: { [Op.and]: [{ id: sourceId }, { user_id: userId }] } });
+        if (!source) {
+            return res.status(400).send({ message: "Source is not present!" });
+        };
+        await source.update({
+            ...source,
+            source: req.body.source,
+            firmName: req.body.firmName,
+            firmAddress: req.body.firmAddress,
+            emailId: req.body.emailId,
+            contactNumberOne: req.body.contactNumberOne,
+            contactNumberTwo: req.body.contactNumberTwo,
+            cordinatorName: req.body.cordinatorName,
+            cordinatorNumber: req.body.cordinatorNumber
+        });
+        res.status(200).send({ message: `Source modified successfully! ID: ${sourceId}}` });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send(err);
     }
 }
